@@ -1,0 +1,20 @@
+[
+	{
+		"modid": "pixelrus",
+		"name": "Pixelrus",
+		"description": "Pixelrus adds the feature of Pokerus to Pixelmon!",
+		"version": "${version}",
+		"mcversion": "${mcversion}",
+		"url": "http://happyzleaf.com/",
+		"updateUrl": "https://github.com/happyzleaf/Pixelrus",
+		"authorList": [
+			"happyzleaf"
+		],
+		"credits": "",
+		"logoFile": "",
+		"screenshots": [],
+		"dependencies": [
+			"pixelmon"
+		]
+	}
+]
