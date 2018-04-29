@@ -1,6 +1,6 @@
 package com.happyzleaf.pixelrus.data.impl;
 
-import com.happyzleaf.pixelrus.data.HasPixelmonData;
+import com.happyzleaf.pixelrus.data.HasPokerusData;
 import com.happyzleaf.pixelrus.data.PixelrusKeys;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
@@ -15,10 +15,10 @@ import org.spongepowered.api.data.value.mutable.Value;
 
 import java.util.Optional;
 
-public class HasPixelmonDataImpl extends AbstractBooleanData<HasPixelmonData, HasPixelmonData.Immutable> implements HasPixelmonData {
+public class HasPokerusDataImpl extends AbstractBooleanData<HasPokerusData, HasPokerusData.Immutable> implements HasPokerusData {
 	private static final int CONTENT_VERSION = 1;
 	
-	HasPixelmonDataImpl(boolean announced) {
+	HasPokerusDataImpl(boolean announced) {
 		super(announced, PixelrusKeys.HAS_POKERUS, false);
 	}
 	
@@ -28,22 +28,22 @@ public class HasPixelmonDataImpl extends AbstractBooleanData<HasPixelmonData, Ha
 	}
 	
 	@Override
-	public Optional<HasPixelmonData> fill(DataHolder dataHolder, MergeFunction overlap) {
-		Optional<HasPixelmonDataImpl> data_ = dataHolder.get(HasPixelmonDataImpl.class);
+	public Optional<HasPokerusData> fill(DataHolder dataHolder, MergeFunction overlap) {
+		Optional<HasPokerusDataImpl> data_ = dataHolder.get(HasPokerusDataImpl.class);
 		if (data_.isPresent()) {
-			HasPixelmonDataImpl data = data_.get();
-			HasPixelmonDataImpl finalData = overlap.merge(this, data);
+			HasPokerusDataImpl data = data_.get();
+			HasPokerusDataImpl finalData = overlap.merge(this, data);
 			setValue(finalData.getValue());
 		}
 		return Optional.of(this);
 	}
 	
 	@Override
-	public Optional<HasPixelmonData> from(DataContainer container) {
+	public Optional<HasPokerusData> from(DataContainer container) {
 		return from((DataView) container);
 	}
 	
-	public Optional<HasPixelmonData> from(DataView view) {
+	public Optional<HasPokerusData> from(DataView view) {
 		if (view.contains(PixelrusKeys.HAS_POKERUS.getQuery())) {
 			setValue(view.getBoolean(PixelrusKeys.HAS_POKERUS.getQuery()).get());
 			return Optional.of(this);
@@ -53,8 +53,8 @@ public class HasPixelmonDataImpl extends AbstractBooleanData<HasPixelmonData, Ha
 	}
 	
 	@Override
-	public HasPixelmonDataImpl copy() {
-		return new HasPixelmonDataImpl(getValue());
+	public HasPokerusDataImpl copy() {
+		return new HasPokerusDataImpl(getValue());
 	}
 	
 	@Override
@@ -72,14 +72,14 @@ public class HasPixelmonDataImpl extends AbstractBooleanData<HasPixelmonData, Ha
 		return super.toContainer().set(PixelrusKeys.HAS_POKERUS.getQuery(), getValue());
 	}
 	
-	public static class Immutable extends AbstractImmutableBooleanData<HasPixelmonData.Immutable, HasPixelmonData> implements HasPixelmonData.Immutable {
+	public static class Immutable extends AbstractImmutableBooleanData<HasPokerusData.Immutable, HasPokerusData> implements HasPokerusData.Immutable {
 		Immutable(boolean enabled) {
 			super(enabled, PixelrusKeys.HAS_POKERUS, false);
 		}
 		
 		@Override
-		public HasPixelmonDataImpl asMutable() {
-			return new HasPixelmonDataImpl(getValue());
+		public HasPokerusDataImpl asMutable() {
+			return new HasPokerusDataImpl(getValue());
 		}
 		
 		@Override
@@ -98,23 +98,23 @@ public class HasPixelmonDataImpl extends AbstractBooleanData<HasPixelmonData, Ha
 		}
 	}
 	
-	public static class Builder extends AbstractDataBuilder<HasPixelmonData> implements HasPixelmonData.Builder {
+	public static class Builder extends AbstractDataBuilder<HasPokerusData> implements HasPokerusData.Builder {
 		public Builder() {
-			super(HasPixelmonData.class, CONTENT_VERSION);
+			super(HasPokerusData.class, CONTENT_VERSION);
 		}
 		
 		@Override
-		public HasPixelmonDataImpl create() {
-			return new HasPixelmonDataImpl(false);
+		public HasPokerusDataImpl create() {
+			return new HasPokerusDataImpl(false);
 		}
 		
 		@Override
-		public Optional<HasPixelmonData> createFrom(DataHolder dataHolder) {
+		public Optional<HasPokerusData> createFrom(DataHolder dataHolder) {
 			return create().fill(dataHolder);
 		}
 		
 		@Override
-		protected Optional<HasPixelmonData> buildContent(DataView container) throws InvalidDataException {
+		protected Optional<HasPokerusData> buildContent(DataView container) throws InvalidDataException {
 			return create().from(container);
 		}
 	}

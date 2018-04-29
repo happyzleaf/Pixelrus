@@ -1,32 +1,27 @@
 package com.happyzleaf.pixelrus.data;
 
 import com.happyzleaf.pixelrus.Pixelrus;
-import com.happyzleaf.pixelrus.data.impl.HasPixelmonDataImpl;
+import com.happyzleaf.pixelrus.data.impl.HasPokerusDataImpl;
 import com.happyzleaf.pixelrus.data.impl.InfectedDataImpl;
-import com.pixelmonmod.pixelmon.api.dialogue.Dialogue;
-import net.minecraft.entity.player.EntityPlayerMP;
+import com.happyzleaf.pixelrus.data.impl.VirusTypeDataImpl;
+import com.happyzleaf.pixelrus.pokerus.VirusTypes;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.value.mutable.Value;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.util.TypeTokens;
 import org.spongepowered.api.util.generator.dummy.DummyObjectProvider;
 
-import java.util.ArrayList;
-
 public class PixelrusKeys {
-	private static ArrayList<Dialogue> dialogue = new ArrayList<>();
-	
-	static {
-		dialogue.add(new Dialogue.DialogueBuilder().setName("Joyce").setText("Oh, looks like your pixelmon got AIDS!").build());
-	}
-	
 	/**
 	 * True if the pokerus has been announced when the player used a healer
 	 */
 	public static Key<Value<Boolean>> HAS_POKERUS = DummyObjectProvider.createExtendedFor(Key.class, "HAS_POKERUS");
+	
+	/**
+	 * Holds the virus type ordinal representing a {@link VirusTypes}
+	 */
+	public static Key<Value<Integer>> VIRUS_TYPE = DummyObjectProvider.createExtendedFor(Key.class, "VIRUS_TYPE");
 	
 	/**
 	 * Returns how many minutes have passed since the pixelmon was infected.
@@ -40,6 +35,12 @@ public class PixelrusKeys {
 				.name("Has Pokerus")
 				.query(DataQuery.of("has_pokerus"))
 				.build();
+		VIRUS_TYPE = Key.builder()
+				.type(TypeTokens.INTEGER_VALUE_TOKEN)
+				.id(Pixelrus.PLUGIN_ID + ":virus_type")
+				.name("Virus Type")
+				.query(DataQuery.of("virus_type"))
+				.build();
 		INFECTED = Key.builder()
 				.type(TypeTokens.INTEGER_VALUE_TOKEN)
 				.id(Pixelrus.PLUGIN_ID + ":infected")
@@ -50,13 +51,21 @@ public class PixelrusKeys {
 		DataRegistration.builder()
 				.dataName("Has Pixelmon")
 				.manipulatorId("has_pixelmon")
-				.dataClass(HasPixelmonData.class)
-				.dataImplementation(HasPixelmonDataImpl.class)
-				.immutableClass(HasPixelmonData.Immutable.class)
-				.immutableImplementation(HasPixelmonDataImpl.Immutable.class)
-				.builder(new HasPixelmonDataImpl.Builder())
+				.dataClass(HasPokerusData.class)
+				.dataImplementation(HasPokerusDataImpl.class)
+				.immutableClass(HasPokerusData.Immutable.class)
+				.immutableImplementation(HasPokerusDataImpl.Immutable.class)
+				.builder(new HasPokerusDataImpl.Builder())
 				.buildAndRegister(Pixelrus.container);
-		
+		DataRegistration.builder()
+				.dataName("Virus Type")
+				.manipulatorId("virus_type")
+				.dataClass(VirusTypeData.class)
+				.dataImplementation(VirusTypeDataImpl.class)
+				.immutableClass(VirusTypeData.Immutable.class)
+				.immutableImplementation(VirusTypeDataImpl.Immutable.class)
+				.builder(new VirusTypeDataImpl.Builder())
+				.buildAndRegister(Pixelrus.container);
 		DataRegistration.builder()
 				.dataName("Infected")
 				.manipulatorId("infected")
@@ -66,29 +75,5 @@ public class PixelrusKeys {
 				.immutableImplementation(InfectedDataImpl.Immutable.class)
 				.builder(new InfectedDataImpl.Builder())
 				.buildAndRegister(Pixelrus.container);
-	}
-	
-	//JUST SOME TEST UTILITIES
-	public static void infect(Entity entity) {
-		entity.offer(entity.getOrCreate(HasPixelmonData.class).get());
-		entity.offer(entity.getOrCreate(InfectedData.class).get());
-	}
-	
-	public static void announce(Player player, Entity entity) {
-		entity.offer(HAS_POKERUS, true);
-		Dialogue.setPlayerDialogueData((EntityPlayerMP) player, dialogue, true);
-	}
-	
-	public static void timePassed(Entity entity) {
-		entity.offer(INFECTED, entity.get(INFECTED).get() + 1);
-	}
-	
-	public static void cure(Entity entity) {
-		entity.remove(INFECTED);
-	}
-	
-	public static void forceRemove(Entity entity) {
-		entity.remove(INFECTED);
-		cure(entity);
 	}
 }

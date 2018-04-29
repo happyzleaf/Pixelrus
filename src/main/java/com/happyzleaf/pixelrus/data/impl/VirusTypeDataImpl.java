@@ -1,12 +1,12 @@
 package com.happyzleaf.pixelrus.data.impl;
 
-import com.happyzleaf.pixelrus.data.InfectedData;
+import com.happyzleaf.pixelrus.data.VirusTypeData;
 import com.happyzleaf.pixelrus.data.PixelrusKeys;
+import com.happyzleaf.pixelrus.pokerus.VirusTypes;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.data.DataView;
-import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableSingleData;
 import org.spongepowered.api.data.manipulator.mutable.common.AbstractIntData;
 import org.spongepowered.api.data.merge.MergeFunction;
@@ -17,40 +17,40 @@ import org.spongepowered.api.data.value.mutable.Value;
 
 import java.util.Optional;
 
-public class InfectedDataImpl extends AbstractIntData<InfectedData, InfectedData.Immutable> implements InfectedData {
+public class VirusTypeDataImpl extends AbstractIntData<VirusTypeData, VirusTypeData.Immutable> implements VirusTypeData {
 	private static final int CONTENT_VERSION = 1;
 	
-	protected InfectedDataImpl(int value) {
+	protected VirusTypeDataImpl(int value) {
 		super(value, PixelrusKeys.INFECTED);
 	}
 	
 	@Override
-	public Value<Integer> timePassed() {
+	public Value<Integer> type() {
 		return getValueGetter();
 	}
 	
 	@Override
 	protected Value<Integer> getValueGetter() {
-		return Sponge.getRegistry().getValueFactory().createValue(PixelrusKeys.INFECTED, this.getValue(), 0);
+		return Sponge.getRegistry().getValueFactory().createValue(PixelrusKeys.INFECTED, this.getValue(), VirusTypes.getRandom().ordinal());
 	}
 	
 	@Override
-	public Optional<InfectedData> fill(DataHolder dataHolder, MergeFunction overlap) {
-		Optional<InfectedDataImpl> data_ = dataHolder.get(InfectedDataImpl.class);
+	public Optional<VirusTypeData> fill(DataHolder dataHolder, MergeFunction overlap) {
+		Optional<VirusTypeDataImpl> data_ = dataHolder.get(VirusTypeDataImpl.class);
 		if (data_.isPresent()) {
-			InfectedDataImpl data = data_.get();
-			InfectedDataImpl finalData = overlap.merge(this, data);
+			VirusTypeDataImpl data = data_.get();
+			VirusTypeDataImpl finalData = overlap.merge(this, data);
 			setValue(finalData.getValue());
 		}
 		return Optional.of(this);
 	}
 	
 	@Override
-	public Optional<InfectedData> from(DataContainer container) {
+	public Optional<VirusTypeData> from(DataContainer container) {
 		return from((DataView) container);
 	}
 	
-	public Optional<InfectedData> from(DataView view) {
+	public Optional<VirusTypeData> from(DataView view) {
 		if (view.contains(PixelrusKeys.INFECTED.getQuery())) {
 			setValue(view.getInt(PixelrusKeys.INFECTED.getQuery()).get());
 			return Optional.of(this);
@@ -60,8 +60,8 @@ public class InfectedDataImpl extends AbstractIntData<InfectedData, InfectedData
 	}
 	
 	@Override
-	public InfectedData copy() {
-		return new InfectedDataImpl(getValue());
+	public VirusTypeData copy() {
+		return new VirusTypeDataImpl(getValue());
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class InfectedDataImpl extends AbstractIntData<InfectedData, InfectedData
 	}
 	
 	@Override
-	public InfectedData.Immutable asImmutable() {
+	public VirusTypeData.Immutable asImmutable() {
 		return new Immutable(getValue());
 	}
 	
@@ -79,7 +79,7 @@ public class InfectedDataImpl extends AbstractIntData<InfectedData, InfectedData
 		return CONTENT_VERSION;
 	}
 	
-	public static class Immutable extends AbstractImmutableSingleData<Integer, InfectedData.Immutable, InfectedData> implements InfectedData.Immutable {
+	public static class Immutable extends AbstractImmutableSingleData<Integer, VirusTypeData.Immutable, VirusTypeData> implements VirusTypeData.Immutable {
 		private ImmutableValue<Integer> immutableValue;
 		
 		protected Immutable(Integer value) {
@@ -88,7 +88,7 @@ public class InfectedDataImpl extends AbstractIntData<InfectedData, InfectedData
 		}
 		
 		@Override
-		public ImmutableValue<Integer> timePassed() {
+		public ImmutableValue<Integer> type() {
 			return getValueGetter();
 		}
 		
@@ -103,8 +103,8 @@ public class InfectedDataImpl extends AbstractIntData<InfectedData, InfectedData
 		}
 		
 		@Override
-		public InfectedData asMutable() {
-			return new InfectedDataImpl(getValue());
+		public VirusTypeData asMutable() {
+			return new VirusTypeDataImpl(getValue());
 		}
 		
 		@Override
@@ -113,23 +113,23 @@ public class InfectedDataImpl extends AbstractIntData<InfectedData, InfectedData
 		}
 	}
 	
-	public static class Builder extends AbstractDataBuilder<InfectedData> implements InfectedData.Builder {
+	public static class Builder extends AbstractDataBuilder<VirusTypeData> implements VirusTypeData.Builder {
 		public Builder() {
-			super(InfectedData.class, CONTENT_VERSION);
+			super(VirusTypeData.class, CONTENT_VERSION);
 		}
 		
 		@Override
-		public InfectedDataImpl create() {
-			return new InfectedDataImpl(0);
+		public VirusTypeDataImpl create() {
+			return new VirusTypeDataImpl(0);
 		}
 		
 		@Override
-		public Optional<InfectedData> createFrom(DataHolder dataHolder) {
+		public Optional<VirusTypeData> createFrom(DataHolder dataHolder) {
 			return create().fill(dataHolder);
 		}
 		
 		@Override
-		protected Optional<InfectedData> buildContent(DataView container) throws InvalidDataException {
+		protected Optional<VirusTypeData> buildContent(DataView container) throws InvalidDataException {
 			return create().from(container);
 		}
 	}
