@@ -21,7 +21,7 @@ public class VirusTypeDataImpl extends AbstractIntData<VirusTypeData, VirusTypeD
 	private static final int CONTENT_VERSION = 1;
 	
 	protected VirusTypeDataImpl(int value) {
-		super(value, PixelrusKeys.INFECTED);
+		super(value, PixelrusKeys.VIRUS_TYPE);
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class VirusTypeDataImpl extends AbstractIntData<VirusTypeData, VirusTypeD
 	
 	@Override
 	protected Value<Integer> getValueGetter() {
-		return Sponge.getRegistry().getValueFactory().createValue(PixelrusKeys.INFECTED, this.getValue(), VirusTypes.getRandom().ordinal());
+		return Sponge.getRegistry().getValueFactory().createValue(PixelrusKeys.VIRUS_TYPE, this.getValue(), VirusTypes.getRandom().ordinal());
 	}
 	
 	@Override
@@ -51,8 +51,8 @@ public class VirusTypeDataImpl extends AbstractIntData<VirusTypeData, VirusTypeD
 	}
 	
 	public Optional<VirusTypeData> from(DataView view) {
-		if (view.contains(PixelrusKeys.INFECTED.getQuery())) {
-			setValue(view.getInt(PixelrusKeys.INFECTED.getQuery()).get());
+		if (view.contains(PixelrusKeys.VIRUS_TYPE.getQuery())) {
+			setValue(view.getInt(PixelrusKeys.VIRUS_TYPE.getQuery()).get());
 			return Optional.of(this);
 		} else {
 			return Optional.empty();
@@ -83,8 +83,8 @@ public class VirusTypeDataImpl extends AbstractIntData<VirusTypeData, VirusTypeD
 		private ImmutableValue<Integer> immutableValue;
 		
 		protected Immutable(Integer value) {
-			super(value, PixelrusKeys.INFECTED);
-			immutableValue = Sponge.getRegistry().getValueFactory().createValue(PixelrusKeys.INFECTED, 0, value).asImmutable();
+			super(value, PixelrusKeys.VIRUS_TYPE);
+			immutableValue = Sponge.getRegistry().getValueFactory().createValue(PixelrusKeys.VIRUS_TYPE, 0, value).asImmutable();
 		}
 		
 		@Override
@@ -99,7 +99,7 @@ public class VirusTypeDataImpl extends AbstractIntData<VirusTypeData, VirusTypeD
 		
 		@Override
 		public DataContainer toContainer() {
-			return super.toContainer().set(PixelrusKeys.INFECTED.getQuery(), getValue());
+			return super.toContainer().set(PixelrusKeys.VIRUS_TYPE.getQuery(), getValue());
 		}
 		
 		@Override
