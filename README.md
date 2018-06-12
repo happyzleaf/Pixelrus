@@ -1,3 +1,3 @@
 # Pixelrus
-![owo](http://happyzleaf.com/uploads/aids.png)
-VERY WIP. IGNORE PLEASE.
+![owo](https://raw.githubusercontent.com/happyzleaf/Pixelrus/master/aids.png)
+Archived, added to the main mod.
