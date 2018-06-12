@@ -54,7 +54,7 @@ public class PokerusHelper {
 		entity.offer(PixelrusKeys.HAS_POKERUS, true);
 	}
 	
-	public static void increaseVirus(Entity entity) {
+	public static void progress(Entity entity) {
 		int updated = entity.get(PixelrusKeys.INFECTED).get() + 1;
 		if (updated >= VirusTypes.values()[entity.get(PixelrusKeys.VIRUS_TYPE).get()].minutes) {
 			cure(entity);
